@@ -1,3 +1,3 @@
 # ChatLibrary
 
-A description of this package.
+Chat components.
