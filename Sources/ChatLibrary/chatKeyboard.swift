@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+#warning("how to make sendAction and cancelAction async and 'dependent' so sendAction could be delayed and cancelAction could cancel sendAction - see MessageListViewModel")
+
 public extension View {
     /// Attach a TextEditor with dismiss keyboard and send buttons to a view.
     /// - Parameters:
@@ -127,12 +129,14 @@ private struct ChatKeyboard: View {
             )
             .fixedSize(horizontal: false, vertical: true)
             .focused($focusField, equals: .text)
+            .disabled(showingCancelButton)
     }
     
     private var sendActionButton: some View {
         Button {
             withAnimation {
                 focusField = nil
+                #warning("what if sendAction has guards? like return if message too short - how to dismiss cancel button?")
                 showingCancelButton = true
                 sendAction()
             }
