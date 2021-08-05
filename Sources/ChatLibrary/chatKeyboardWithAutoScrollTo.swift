@@ -8,7 +8,7 @@
 import SwiftUI
 
 public extension View {
-#warning("how to track text height change? ad use height for tracking, not test itself")
+    #warning("how to track text height change? ad use height for tracking, not text itself")
     /// Attach chat keyboard with auto scrolling to view.
     func chatKeyboardWithAutoScrollTo<ID: Hashable>(
         _ id: ID?,
