@@ -161,6 +161,9 @@ private struct ChatKeyboard: View {
             }
             .buttonStyle(.borderedProminent)
             .controlSize(.small)
+            .onDisappear {
+                showingCancelButton = false
+            }
         }
     }
     
