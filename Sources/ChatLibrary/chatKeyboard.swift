@@ -187,3 +187,33 @@ private struct ChatKeyboard: View {
     }
     
 }
+
+struct ChatKeyboardDemo: View {
+    let delay: Double
+    
+    @State private var text = ""
+    @State private var copy = ""
+
+    var body: some View {
+        VStack {
+            Color.indigo.ignoresSafeArea()
+                .chatKeyboard(
+                    text: $text,
+                    delay: delay
+                ) {
+                    copy = text
+                    text = ""
+                } cancelAction: {
+                    text = copy
+                    copy = ""
+                }
+        }
+    }
+}
+
+struct ChatKeyboardDemo_Previews: PreviewProvider {
+    
+    static var previews: some View {
+        ChatKeyboardDemo(delay: 5)
+    }
+}

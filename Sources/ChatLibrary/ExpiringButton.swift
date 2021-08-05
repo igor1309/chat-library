@@ -8,17 +8,17 @@
 import SwiftUI
 import Combine
 
+/// Disappearing button showing countdown timer.
 public struct ExpiringButton: View {
     let title: String
     let role: ButtonRole?
     let time: TimeInterval
     let action: () -> Void
     
-    /// Disappearing button showing countdown timer.
     /// - Parameters:
     ///   - title: Button title.
     ///   - role: Optional Button role.
-    ///   - time: Time to expiration (button disappearance) in seconds.
+    ///   - time: Time to expiration (i.e. button disappearance) in seconds.
     ///   - action: Button action.
     public init(
         _ title: String,
@@ -46,21 +46,7 @@ public struct ExpiringButton: View {
                 action()
                 progress = 100
             } label: {
-                Label {
-                    Text(title)
-                } icon: {
-                    ProgressView(value: progress, total: 100)
-                        .progressViewStyle(
-                            .countdownProgressViewStyle(
-                                time: time,
-                                lineWidth: 2
-                            )
-                        )
-                        .frame(width: 20, height: 20)
-                        .font(.caption)
-                        .frame(height: 22)
-                        .padding(.trailing)
-                }
+                label
             }
             .onReceive(timer) { _ in
                 if progress < 100 {
@@ -69,6 +55,24 @@ public struct ExpiringButton: View {
                     }
                 }
             }
+        }
+    }
+    
+    private var label: some View {
+        Label {
+            Text(title)
+        } icon: {
+            ProgressView(value: progress, total: 100)
+                .progressViewStyle(
+                    .countdownProgressViewStyle(
+                        time: time,
+                        lineWidth: 2
+                    )
+                )
+                .frame(width: 20, height: 20)
+                .font(.caption)
+                .frame(height: 22)
+                .padding(.trailing)
         }
     }
 }
@@ -110,6 +114,12 @@ fileprivate struct ExpiringButtonDemo: View {
             
             Divider().padding()
             
+            ExpiringButton("Undo post", role: .destructive, seconds: 5) {
+                print("undo fired")
+            }
+            
+            Divider().padding()
+            
             ExpiringButton("Undo post", seconds: 5) {
                 print("undo fired")
             }
@@ -119,6 +129,13 @@ fileprivate struct ExpiringButtonDemo: View {
 
 struct ExpiringButton_Previews: PreviewProvider {
     static var previews: some View {
-        ExpiringButtonDemo()
+        Group {
+            ExpiringButtonDemo()
+                .previewLayout(.fixed(width: 370, height: 430))
+            
+            ExpiringButtonDemo()
+                .preferredColorScheme(.dark)
+                .previewLayout(.fixed(width: 370, height: 430))
+        }
     }
 }

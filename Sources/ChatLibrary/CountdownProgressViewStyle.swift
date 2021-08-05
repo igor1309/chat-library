@@ -46,5 +46,22 @@ public struct CountdownProgressViewStyle: ProgressViewStyle {
             Text(Int(time * (1 - progress) + 0.3).formatted())
         }
     }
-    
+}
+
+struct CountdownProgressViewStyleDemo_Previews: PreviewProvider {
+    static var previews: some View {
+        VStack {
+            ProgressView()
+                .progressViewStyle(.countdownProgressViewStyle(time: 7, lineWidth: 2))
+                .frame(width: 30, height: 30)
+                .font(.caption)
+            
+            Divider().padding()
+            
+            ProgressView()
+                .progressViewStyle(.countdownProgressViewStyle(time: 7, lineWidth: 6))
+                .frame(width: 100, height: 100)
+        }
+        .preferredColorScheme(.dark)
+    }
 }
