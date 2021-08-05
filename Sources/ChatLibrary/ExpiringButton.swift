@@ -14,11 +14,11 @@ public struct ExpiringButton: View {
     let time: TimeInterval
     let action: () -> Void
     
-    /// Disappearing button
+    /// Disappearing button showing countdown timer.
     /// - Parameters:
     ///   - title: Button title.
     ///   - role: Optional Button role.
-    ///   - time: Time to expiration in seconds.
+    ///   - time: Time to expiration (button disappearance) in seconds.
     ///   - action: Button action.
     public init(
         _ title: String,
@@ -38,7 +38,7 @@ public struct ExpiringButton: View {
     
     @State private var progress = 0.0
     
-    let timer: Publishers.Autoconnect<Timer.TimerPublisher>
+    private let timer: Publishers.Autoconnect<Timer.TimerPublisher>
     
     public var body: some View {
         if progress < 100 {
@@ -58,7 +58,8 @@ public struct ExpiringButton: View {
                         )
                         .frame(width: 20, height: 20)
                         .font(.caption)
-                        .frame(height: 24)
+                        .frame(height: 22)
+                        .padding(.trailing)
                 }
             }
             .onReceive(timer) { _ in

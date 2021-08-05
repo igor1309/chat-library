@@ -112,7 +112,8 @@ private struct ChatKeyboard: View {
         TextEditor(text: $text)
             .frame(
                 maxWidth: .infinity,
-                minHeight: minHeight,
+                // min height of TextEditor is 38
+                minHeight: 38,
                 maxHeight: maxHeight,
                 alignment: .leading
             )
@@ -159,7 +160,7 @@ private struct ChatKeyboard: View {
                 focusField = .text
                 cancelAction()
             }
-            .buttonStyle(.borderedProminent)
+//            .buttonStyle(.borderedProminent)
             .controlSize(.small)
             .onDisappear {
                 showingCancelButton = false
