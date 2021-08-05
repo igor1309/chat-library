@@ -26,7 +26,7 @@ public extension View {
         text: Binding<String>,
         // TODO: how to make TextEditor maxHeight dynamic?
         maxHeight: CGFloat = 280,
-        action: @escaping (String) -> Void
+        action: @escaping () -> Void
     ) -> some View {
         Group {
             self
@@ -38,12 +38,12 @@ public extension View {
 fileprivate struct ChatKeyboard: View {
     @Binding var text: String
     let maxHeight: CGFloat
-    let action: (String) -> Void
+    let action: () -> Void
     
     init(
         text: Binding<String>,
         maxHeight: CGFloat,
-        action: @escaping (String) -> Void
+        action: @escaping () -> Void
     ) {
         self._text = text
         self.maxHeight = maxHeight
@@ -80,7 +80,7 @@ fileprivate struct ChatKeyboard: View {
                 Button {
                     withAnimation {
                         focusField = nil
-                        action(text)
+                        action()
                     }
                 } label: {
                     Label("Post message", systemImage: "arrow.up.circle.fill")

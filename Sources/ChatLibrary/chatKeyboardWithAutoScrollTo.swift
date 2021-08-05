@@ -15,7 +15,7 @@ public extension View {
         anchor: UnitPoint? = nil,
         text: Binding<String>,
         maxHeight: CGFloat = 280,
-        action: @escaping (String) -> Void
+        action: @escaping () -> Void
     ) -> some View {
         
         func scroll(proxy: ScrollViewProxy) {
