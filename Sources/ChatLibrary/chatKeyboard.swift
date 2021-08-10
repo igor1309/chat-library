@@ -121,7 +121,7 @@ private struct ChatKeyboard: View {
                 maxHeight: maxHeight,
                 alignment: .leading
             )
-            .height($height)
+            .getHeight($height)
             .fixedSize(horizontal: false, vertical: true)
             .focused($focusField, equals: .text)
             .disabled(showingCancelButton)

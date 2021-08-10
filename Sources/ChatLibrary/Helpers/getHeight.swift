@@ -9,7 +9,7 @@ import SwiftUI
 
 public extension View {
     /// Get height of the view.
-    func height(_ height: Binding<CGFloat>) -> some View {
+    func getHeight(_ height: Binding<CGFloat>) -> some View {
         self
         // .modifier(HeightModifier(height: height))
             .background(
@@ -17,7 +17,7 @@ public extension View {
                     Color.clear
                         .onChange(of: geo.size.height) { newValue in
                             height.wrappedValue = newValue
-                            print("new height: \(newValue.formatted())")
+                            // print("new height: \(newValue.formatted())")
                         }
                 }
             )
