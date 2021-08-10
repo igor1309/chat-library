@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+#warning("test with delay = 0: what should and should not happen (like cancelButton never show?) ??")
+
 #warning("how to make sendAction and cancelAction async and 'dependent' so sendAction could be delayed and cancelAction could cancel sendAction - see MessageListViewModel")
 
 public extension View {
@@ -46,7 +48,7 @@ public extension View {
             ChatKeyboard(
                 text: text,
                 // min height of TextEditor is 38
-                minHeight: minHeight ?? .constant(38),
+                height: minHeight ?? .constant(38),
                 maxHeight: maxHeight,
                 delay: delay,
                 sendAction: sendAction,
@@ -58,7 +60,7 @@ public extension View {
 
 private struct ChatKeyboard: View {
     @Binding var text: String
-    @Binding var minHeight: CGFloat
+    @Binding var height: CGFloat
     let maxHeight: CGFloat
     let delay: TimeInterval
     let sendAction: () -> Void
@@ -66,14 +68,14 @@ private struct ChatKeyboard: View {
     
     init(
         text: Binding<String>,
-        minHeight: Binding<CGFloat>,
+        height: Binding<CGFloat>,
         maxHeight: CGFloat,
         delay: TimeInterval,
         sendAction: @escaping () -> Void,
         cancelAction: @escaping () -> Void
     ) {
         self._text = text
-        self._minHeight = minHeight
+        self._height = height
         self.maxHeight = maxHeight
         self.sendAction = sendAction
         self.delay = delay
@@ -119,14 +121,7 @@ private struct ChatKeyboard: View {
                 maxHeight: maxHeight,
                 alignment: .leading
             )
-            .overlay(
-                GeometryReader { geo in
-                    Color.clear
-                        .onChange(of: geo.size.height) { newValue in
-                            minHeight = newValue
-                        }
-                }
-            )
+            .height($height)
             .fixedSize(horizontal: false, vertical: true)
             .focused($focusField, equals: .text)
             .disabled(showingCancelButton)
@@ -136,7 +131,7 @@ private struct ChatKeyboard: View {
         Button {
             withAnimation {
                 focusField = nil
-                #warning("what if sendAction has guards? like return if message too short - how to dismiss cancel button?")
+#warning("what if sendAction has guards? like return if message too short - how to dismiss cancel button?")
                 showingCancelButton = true
                 sendAction()
             }
@@ -164,7 +159,7 @@ private struct ChatKeyboard: View {
                 focusField = .text
                 cancelAction()
             }
-//            .buttonStyle(.borderedProminent)
+            // .buttonStyle(.borderedProminent)
             .controlSize(.small)
             .onDisappear {
                 showingCancelButton = false
@@ -190,34 +185,4 @@ private struct ChatKeyboard: View {
         }
     }
     
-}
-
-struct ChatKeyboardDemo: View {
-    let delay: Double
-    
-    @State private var text = ""
-    @State private var copy = ""
-
-    var body: some View {
-        VStack {
-            Color.indigo.ignoresSafeArea()
-                .chatKeyboard(
-                    text: $text,
-                    delay: delay
-                ) {
-                    copy = text
-                    text = ""
-                } cancelAction: {
-                    text = copy
-                    copy = ""
-                }
-        }
-    }
-}
-
-struct ChatKeyboardDemo_Previews: PreviewProvider {
-    
-    static var previews: some View {
-        ChatKeyboardDemo(delay: 5)
-    }
 }
