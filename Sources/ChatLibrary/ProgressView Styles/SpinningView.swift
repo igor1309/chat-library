@@ -44,29 +44,19 @@ struct SpinningView: View {
                     lineJoin: .round)
             )
             .mask(angularGradient)
-            .rotationEffect(.degrees(angle))
-            .animateForever(using: .linear(duration: duration)) {
-                angle = 360
+            .onAppear {
+                // using DispatchQueue.main.async to prevent rotating animation
+                // to mess up with navigation animation
+                DispatchQueue.main.async {
+                    withAnimation(
+                        .linear(duration: duration).repeatForever(autoreverses: false)
+                    ) {
+                        angle = 360
+                    }
+                }
             }
+             .rotationEffect(.degrees(angle), anchor: .center)
         // .drawingGroup()
-    }
-}
-
-
-// Create an immediate, looping animation
-/// [How to start an animation immediately after a view appears - a free SwiftUI by Example tutorial](https://www.hackingwithswift.com/quick-start/swiftui/how-to-start-an-animation-immediately-after-a-view-appears)
-extension View {
-    func animateForever(
-        using animation: Animation = .easeInOut(duration: 1),
-        autoreverses: Bool = false,
-        _ action: @escaping () -> Void
-    ) -> some View {
-        let repeated = animation.repeatForever(autoreverses: autoreverses)
-        
-        return onAppear {
-            withAnimation(repeated) {
-                action()
-            }
-        }
+            .aspectRatio(1, contentMode: .fit)
     }
 }
