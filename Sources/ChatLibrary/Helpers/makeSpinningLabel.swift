@@ -16,13 +16,18 @@ extension Text {
         Label {
             self
         } icon: {
-            ProgressView()
-                .progressViewStyle(
-                    .spinningProgressViewStyle(
-                        lineWidth: lineWidth,
-                        duration: duration
-                    )
-                )
+#warning("excessive animation when using progressViewStyle - see MessageListView in BoardsIOS")
+            SpinningView(
+                lineWidth: lineWidth,
+                duration: duration
+            )
+//            ProgressView()
+//                .progressViewStyle(
+//                    .spinningProgressViewStyle(
+//                        lineWidth: lineWidth,
+//                        duration: duration
+//                    )
+//                )
                 .padding(padding)
         }
     }
